@@ -1,6 +1,6 @@
 load("../lib/moip.js");
 
-var valid = moip.creditCard.isValid("12345");
+var valid = moip.creditCard.isValid("4111111111111111");
 print("Valid? "+valid);
 var cscValid = moip.creditCard.isSecurityCodeValid("12345");
 print("CSC Valid? "+cscValid);

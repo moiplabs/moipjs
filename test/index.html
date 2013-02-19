@@ -8,7 +8,13 @@
 <script src="../lib/moip.js"></script>
 <script>
 test("MoIP Credit Card Validations", function() {
-	var valid = moip.creditCard.isValid("12345");
+	var valid = moip.creditCard.isValid("4111111111111111");
+	equal(valid, true);
+	var valid = moip.creditCard.isValid("4111 1111 1111 1111");
+	equal(valid, true);
+	var valid = moip.creditCard.isValid("4111.1111.1111.1111");
+	equal(valid, true);
+	var valid = moip.creditCard.isValid("4111-1111-1111-1111");
 	equal(valid, true);
 	var cscValid = moip.creditCard.isSecurityCodeValid("12345");
 	equal(cscValid, true);
