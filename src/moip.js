@@ -22,10 +22,6 @@ var moip = {
 			return checksum % 10 == 0;
 		},
 
-		isSecurityCodeValid: function(creditCardNumber, csc) {
-			return true;
-		},
-
 		cardType: function(creditCardNumber) {
 			creditCardNumber = creditCardNumber.replace(/\s+/g, '');
 			creditCardNumber = creditCardNumber.replace('.', '');
@@ -49,8 +45,28 @@ var moip = {
 			return null;
 		},
 		
-		isExpiryValid: function(month, year) {
-			return true;
+		isSecurityCodeValid: function(creditCardNumber, csc) {
+			var type = moip.creditCard.cardType(creditCardNumber);
+			if(type["brand"] == "4") {
+				var digits = 4;
+			} else {
+				var digits = 3;
+			}
+			var regExp = new RegExp('[0-9]{' + digits + '}');
+			return (csc.length == digits && regExp.test(csc));
+		},
+		
+		isExpiryDateValid: function(month, year) {
+			var now = new Date();
+			var thisMonth = now.getMonth() + 1;
+			var thisYear = now.getYear() + 1900;
+			var valid = false;
+			if(parseInt(year) >= thisYear) {
+				if(parseInt(month) >= thisMonth) {
+					valid = true;
+				}
+			}
+			return valid;
 		}
 	}
 };
