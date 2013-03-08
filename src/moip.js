@@ -21,9 +21,11 @@ var moip = {
 			}
 			return checksum % 10 == 0;
 		},
+
 		isSecurityCodeValid: function(creditCardNumber, csc) {
 			return true;
 		},
+
 		cardType: function(creditCardNumber) {
 			creditCardNumber = creditCardNumber.replace(/\s+/g, '');
 			creditCardNumber = creditCardNumber.replace('.', '');
@@ -46,6 +48,7 @@ var moip = {
 			}
 			return null;
 		},
+		
 		isExpiryValid: function(month, year) {
 			return true;
 		}
