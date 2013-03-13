@@ -9,14 +9,28 @@ Não, basta fazer o download a biblioteca compactada na seguinte URL.
 
 ## Validando um número de cartão de crédito
 
+Para todas as validações é retornado um boolean se a condição é valida ou não. Veja abaixo algumas validações possíveis com o moip.js
+
 ### Validando apenas o número de cartão
 ``` javascript
 moip.creditCard.isValid("4111111111111111");
 ```
-A validação acima irá retornar um boolean informando se o cartão é valido ou não.
 
 ### Validando cartão com código de segurança
 ``` javascript
 moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
 ```
 
+### Identificando a bandeira de um cartão
+``` javascript 
+moip.creditCard.cardType("5105105105105100");
+```
+Possíveis retornos:
+ * MASTER CARD
+ * VISA
+ * AMEX
+
+### Verificado se a data de expiração do cartão
+``` javascript
+moip.creditCard.isExpiryDateValid("10", "2010");
+```
