@@ -34,7 +34,7 @@ var moip = {
 				return {"brand":"VISA"};
 			}
 			if(creditCardNumber.match(regexpMaster)) {
-				return {"brand":"MASTER CARD"};
+				return {"brand":"MASTERCARD"};
 			}
 			if(creditCardNumber.match(regexpAmex)) {
 				return {"brand": "AMEX"};

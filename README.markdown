@@ -26,9 +26,10 @@ moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
 moip.creditCard.cardType("5105105105105100");
 ```
 Possíveis retornos:
- * MASTER CARD
+ * MASTERCARD
  * VISA
  * AMEX
+ * DINERS
 
 ### Verificado se a data de expiração do cartão
 ``` javascript
