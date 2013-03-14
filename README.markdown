@@ -1,5 +1,7 @@
 # Moip JS
 
+[![Build Status](https://secure.travis-ci.org/moiplabs/moipjs.png)](https://secure.travis-ci.org/moiplabs/moipjs.png)
+
 ## O que é o Moip JS?
 
 É uma biblioteca javascript para auxiliar o seu checkout, identificando e validando um cartão de credito, possibilitando uma melhor experiência para seu usuário.
