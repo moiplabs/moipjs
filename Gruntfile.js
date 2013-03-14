@@ -22,4 +22,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['qunit','uglify']);
 
+  grunt.registerTask('travis', ['qunit']);
 };
