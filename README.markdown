@@ -15,19 +15,35 @@ Para todas as validações é retornado um boolean se a condição é valida ou 
 
 ### Validando apenas o número de cartão
 ``` javascript
-moip.creditCard.isValid("4111111111111111");
+moip.creditCard.isValid("4111111111111111");    //return true
+moip.creditCard.isValid("4111 1111-1111.1111"); //return true
+moip.creditCard.isValid("9191919191919191");    //return false
+moip.creditCard.isValid("41111");               //return false
 ```
+Possíveis retornos:
+* true ou false
 
 ### Validando cartão com código de segurança
 ``` javascript
-moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
+moip.creditCard.isSecurityCodeValid("5105105105105100", "123");    //return true
+moip.creditCard.isSecurityCodeValid("5105105105105100", "12");     //return false
 ```
+Possíveis retornos:
+* true ou false
 
 ### Identificando a bandeira de um cartão
 ``` javascript 
-moip.creditCard.cardType("5105105105105100");
+moip.creditCard.cardType("5105105105105100");    //return [Object]MASTERCARD
+moip.creditCard.cardType("4111111111111111");    //return [Object]VISA
+moip.creditCard.cardType("341111111111111");     //return [Object]AMEX
+moip.creditCard.cardType("30569309025904");      //return [Object]DINERS
+moip.creditCard.cardType("5105105105105100");    //return [Object]null
+
+card = moip.creditCard.cardType("5105105105105100"); 
+cardIs = card.brand; // MASTERCARD
 ```
 Possíveis retornos:
+Object: [brand]
  * MASTERCARD
  * VISA
  * AMEX
@@ -35,5 +51,8 @@ Possíveis retornos:
 
 ### Verificado se a data de expiração do cartão
 ``` javascript
-moip.creditCard.isExpiryDateValid("10", "2010");
+moip.creditCard.isExpiryDateValid("10", "2020");    //return true
+moip.creditCard.isExpiryDateValid("10", "2000");    //return false
 ```
+Possíveis retornos:
+* true ou false
