@@ -9,30 +9,64 @@
 <script>
 test("MoIP Credit Card Validations", function() {
 	var valid = moip.creditCard.isValid("4111111111111111");
-	equal(valid, true);
+	equal(valid, true, "Cartão VISA válido sem espaços");
+
+	valid = moip.creditCard.isValid("4222222222222");
+	equal(valid, true, "Cartão VISA válido sem espaços");
+	
 	valid = moip.creditCard.isValid("4111 1111 1111 1111");
-	equal(valid, true);
+	equal(valid, true, "Cartão VISA válido com espaços");
+	
 	valid = moip.creditCard.isValid("4111.1111.1111.1111");
-	equal(valid, true);
+	equal(valid, true, "Cartão VISA válido com pontuação");
+	
 	valid = moip.creditCard.isValid("4111-1111-1111-1111");
-	equal(valid, true);
+	equal(valid, true, "Cartão VISA válido com hifens");
+
+	valid = moip.creditCard.isValid("4111111111121111");
+	equal(valid, false, "Cartão VISA inválido sem espaços");
+	
+	valid = moip.creditCard.isValid("5555666677778884");
+	equal(valid, true, "Cartão MASTERCARD válido sem espaços");
+
+	valid = moip.creditCard.isValid("5105105105105100");
+	equal(valid, true, "Cartão MASTERCARD válido sem espaços");
+
+	valid = moip.creditCard.isValid("5105105105105120");
+	equal(valid, false, "Cartão MASTERCARD inválido sem espaços");
+
+	valid = moip.creditCard.isValid("30569309025904");
+	equal(valid, true, "Cartão DINERS válido sem espaços");
+
+	valid = moip.creditCard.isValid("378282246310005");
+	equal(valid, true, "Cartão AMEX válido sem espaços");
+
+
 	var cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
 	equal(cscValid, true);
+  
   cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "1234");
 	equal(cscValid, false);
+	
 	var type = moip.creditCard.cardType("5105105105105100");
 	equal(type["brand"], "MASTERCARD");
+
 	type = moip.creditCard.cardType("4111111111111111");
 	equal(type["brand"], "VISA");
+
 	type = moip.creditCard.cardType("4111 1111 1111 1111");
 	equal(type["brand"], "VISA");
+
 	type = moip.creditCard.cardType("341111111111111");
 	equal(type["brand"], "AMEX");
 	
+	type = moip.creditCard.cardType("2441111111111111");
+	equal(type, null);
 	
 	var now = new Date();
 	var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+"");
 	equal(isExpiryDateValid, true);
+	
 	isExpiryDateValid = moip.creditCard.isExpiryDateValid("10", "2010");
 	equal(isExpiryDateValid, false);
 });

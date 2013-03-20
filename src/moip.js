@@ -6,20 +6,16 @@ var moip = {
 			creditCardNumber = creditCardNumber.replace(/\-/g, '');
 			// Luhn algorithm: http://en.wikipedia.org/wiki/Luhn_algorithm
 			var checksum = 0;
-			var valid = false;
-			for(var i = 0; i < creditCardNumber.length; i++) {
-				if(!isNaN(creditCardNumber.charAt(i))) {
-					var val = parseInt(creditCardNumber.charAt(i)); 
-					if(i % 2 == 0) {
-						checksum += val * 2;
-					} else {
-						checksum += val;
-					}
-				} else {
-					return false;
-				} 
-			}
-			return checksum % 10 == 0;
+		  for (var i=(2-(creditCardNumber.length % 2)); i<=creditCardNumber.length; i+=2) {
+		     checksum += parseInt(creditCardNumber.charAt(i-1));
+		  }
+		  // Analyze odd digits in even length strings or even digits in odd length strings.
+		  for (var i=(creditCardNumber.length % 2) + 1; i<creditCardNumber.length; i+=2) {
+		     var digit = parseInt(creditCardNumber.charAt(i-1)) * 2;
+		     if (digit < 10) { checksum += digit; } else { checksum += (digit-9); }
+		  }
+		  if ((checksum % 10) == 0) return true; else return false;
+
 		},
 
 		cardType: function(creditCardNumber) {
