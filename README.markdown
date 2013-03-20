@@ -17,7 +17,7 @@ Para todas as validações é retornado um boolean se a condição é valida ou 
 ``` javascript
 moip.creditCard.isValid("4111111111111111");    //return true
 moip.creditCard.isValid("4111 1111-1111.1111"); //return true
-moip.creditCard.isValid("9191919191919191");    //return false
+moip.creditCard.isValid("1919191919191919");    //return false
 moip.creditCard.isValid("41111");               //return false
 ```
 Possíveis retornos:
@@ -37,7 +37,7 @@ moip.creditCard.cardType("5105105105105100");    //return [Object]MASTERCARD
 moip.creditCard.cardType("4111111111111111");    //return [Object]VISA
 moip.creditCard.cardType("341111111111111");     //return [Object]AMEX
 moip.creditCard.cardType("30569309025904");      //return [Object]DINERS
-moip.creditCard.cardType("5105105105105100");    //return [Object]null
+moip.creditCard.cardType("9191919191919191");    //return [Object]null
 
 card = moip.creditCard.cardType("5105105105105100"); 
 cardIs = card.brand; // MASTERCARD
