@@ -1,6 +1,6 @@
 # Moip JS
 
-[![Build Status](https://secure.travis-ci.org/moiplabs/moipjs.png)](https://secure.travis-ci.org/moiplabs/moipjs.png)
+[![Build Status](https://secure.travis-ci.org/moiplabs/moipjs.png)](https://travis-ci.org/moiplabs/moipjs)
 
 ## O que é o Moip JS?
 
