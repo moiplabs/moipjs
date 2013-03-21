@@ -41,7 +41,6 @@ test("MoIP Credit Card Validations", function() {
 	valid = moip.creditCard.isValid("378282246310005");
 	equal(valid, true, "Cartão AMEX válido sem espaços");
 
-
 	var cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
 	equal(cscValid, true);
   
@@ -59,10 +58,13 @@ test("MoIP Credit Card Validations", function() {
 
 	type = moip.creditCard.cardType("341111111111111");
 	equal(type["brand"], "AMEX");
-	
+
+	type = moip.creditCard.cardType("3841001111222233334");
+	equal(type["brand"], "HIPERCARD");
+
 	type = moip.creditCard.cardType("2441111111111111");
 	equal(type, null);
-	
+
 	var now = new Date();
 	var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+"");
 	equal(isExpiryDateValid, true);

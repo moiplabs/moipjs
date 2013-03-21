@@ -26,18 +26,23 @@ var moip = {
       var regexpMaster = /^5[1-5]\d{2}-?\d{4}-?\d{4}-?\d{4}$/;
       var regexpAmex = /^3[4,7]\d{13}$/;
       var regexpDiners = /^3[0,6,8]\d{12}$/;
-			if(creditCardNumber.match(regexpVisa)) {
+      var regexHiper = /^(606282\d{10}(\d{3})?|3841\d{15})$/;
+			
+			if(creditCardNumber.match(regexpVisa))
 				return {"brand":"VISA"};
-			}
-			if(creditCardNumber.match(regexpMaster)) {
+			
+			if(creditCardNumber.match(regexpMaster))
 				return {"brand":"MASTERCARD"};
-			}
-			if(creditCardNumber.match(regexpAmex)) {
+			
+			if(creditCardNumber.match(regexpAmex))
 				return {"brand": "AMEX"};
-			}
-			if(creditCardNumber.match(regexpDiners)) {
+			
+			if(creditCardNumber.match(regexpDiners))
 				return {"brand": "DINERS"};
-			}
+
+			if(creditCardNumber.match(regexHiper))
+				return {"brand": "HIPERCARD"}
+
 			return null;
 		},
 		
