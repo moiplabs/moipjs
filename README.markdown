@@ -55,6 +55,10 @@ Object: [brand]
 ``` javascript
 moip.creditCard.isExpiryDateValid("10", "2020");    //return true
 moip.creditCard.isExpiryDateValid("10", "2000");    //return false
+
+//Usando objeto Date
+var now = new Date();
+var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+""); // return true
 ```
 Possíveis retornos:
 * true ou false
