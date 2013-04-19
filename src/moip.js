@@ -68,6 +68,36 @@ var moip = {
 				}
 			}
 			return valid;
+		},
+	},
+
+	calculator: {
+		getPricing: function(json){
+			var transaction_tax = (json.amount * (json.transaction_percentage / 100) + json.fixed) / 100;
+			var antecipationPercentageArr = this.getAntecipationPercentage(transaction_tax, json);
+			var totalTaxArr = this.getTotalTax(antecipationPercentageArr, transaction_tax);
+
+			console.log(antecipationPercentageArr);
+		},
+
+		getAntecipationPercentage: function(transaction_tax, json){
+			var antecipation_percentage_arr = new Array();
+			for(i = 1; i < 12; i++){
+				antecipation_percentage_arr[i - 1] = ((json.antecipation_percentage / 100) / 30 * ((30 + (i - 1) * 15) - json.floating)) * ((json.amount / 100) - transaction_tax);
+			}
+			return antecipation_percentage_arr;
+		},
+
+		getTotalTax: function(antecipation_percentage_arr, transaction_tax){
+			var totalTaxArr = new Array();
+			for(i = 0; i < antecipation_percentage_arr.length; i++){
+				totalTaxArr[i] = antecipation_percentage_arr[i] + transaction_tax;
+			}
+			return totalTaxArr;
+		},
+
+		getLiquidValue: function(transactionValue, totalTaxArr){
+			
 		}
 	}
 };

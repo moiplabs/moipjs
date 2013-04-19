@@ -22,3 +22,4 @@ print("Type? "+type["brand"]);
 var now = new Date();
 var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+"");
 isExpiryDateValid = moip.creditCard.isExpiryDateValid("10", "2010");
+

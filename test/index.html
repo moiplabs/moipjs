@@ -71,7 +71,12 @@ test("MoIP Credit Card Validations", function() {
 	
 	isExpiryDateValid = moip.creditCard.isExpiryDateValid("10", "2010");
 	equal(isExpiryDateValid, false);
-});
+	});
+
+	test("MoIP Calculator Tests", function() {
+		response = moip.calculator.getPricing({ "amount" : 10000, "fixed" : 69, "transaction_percentage" : 4.69, "antecipation_percentage" : 2.49, "floating" : 14 });
+		equal(response, null);
+	});
 </script>
 </head>
 <body>
