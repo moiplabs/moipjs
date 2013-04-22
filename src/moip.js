@@ -73,8 +73,12 @@ var moip = {
 
 	calculator: {
 
-		pricing: function(json){
+		creditCardPricing: function(json){
 			return this.buildJson(json);
+		},
+
+		otherPricing: function(){
+
 		},
 
 		buildJson: function(json){
@@ -85,14 +89,18 @@ var moip = {
 			var liquidValueArr = new Array();
 
 			transaction_tax = this._calculateTransactionTax(json.amount, json.transaction_percentage, json.fixed);
-			installmentValue = this._calculateInstallmentValue(json.amount, json.installment);
-
-			for(i = 0; i <= 11; i++){
-				antecipationPercentageArr[i] = this._calculateAntecipationPercentage(transaction_tax, json, i);
-				totalTaxArr[i] = this._calculateTotalTax(antecipationPercentageArr[i], transaction_tax);
-				liquidValueArr[i] = this._calculateLiquidValue(json.amount, totalTaxArr[i]);
-			}
-			return { "amount" : json.amount/100, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr, "installment" : installmentValue}
+			
+			if (json.antecipation_percentage != undefined && json.floating != undefined && json.installment != undefined) {
+				installmentValue = this._calculateInstallmentValue(json.amount, json.installment);
+				for(i = 0; i <= 11; i++){
+					antecipationPercentageArr[i] = this._calculateAntecipationPercentage(transaction_tax, json, i);
+					totalTaxArr[i] = this._calculateTotalTax(antecipationPercentageArr[i], transaction_tax);
+					liquidValueArr[i] = this._calculateLiquidValue(json.amount, totalTaxArr[i]);
+				}
+				return { "amount" : json.amount/100, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr, "installment" : installmentValue};
+			} else {
+				liquidValueArr = this._calculateLiquidValue(json.amount, transaction_tax);
+			};
 		},
 
 		_calculateTransactionTax: function(amount, transactionPercentage, fixed){
