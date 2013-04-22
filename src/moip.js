@@ -78,18 +78,13 @@ var moip = {
 			var totalTaxArr = this.getTotalTax(antecipationPercentageArr, transaction_tax);
 			var liquidValueArr = this.getLiquidValue(json.amount, totalTaxArr);
 
-			console.log("Valor da transação: " + json.amount/100);
-			console.log("Taxa da transacao: " + transaction_tax);
-			console.log("Valores de antecipação: " + antecipationPercentageArr);
-			console.log("Totais de taxas: " + totalTaxArr);
-			console.log("Valor liquido: " + liquidValueArr);
-
 			var jsonObj = { "amount" : json.amount/100, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr}
+			return jsonObj;
 		},
 
 		getAntecipationPercentage: function(transaction_tax, json){
 			var antecipation_percentage_arr = new Array();
-			for(i = 1; i < 12; i++){
+			for(i = 1; i <= 12; i++){
 				antecipation_percentage_arr[i - 1] = ((json.antecipation_percentage / 100) / 30 * ((30 + (i - 1) * 15) - json.floating)) * ((json.amount / 100) - transaction_tax);
 				antecipation_percentage_arr[i - 1] = parseFloat(antecipation_percentage_arr[i - 1].toFixed(2));
 			}
@@ -99,7 +94,7 @@ var moip = {
 		getTotalTax: function(antecipation_percentage_arr, transaction_tax){
 			var totalTaxArr = new Array();
 			for(i = 0; i < antecipation_percentage_arr.length; i++){
-				totalTaxArr[i] = (antecipation_percentage_arr[i] + transaction_tax).toFixed(2);
+				totalTaxArr[i] = parseFloat((antecipation_percentage_arr[i] + transaction_tax).toFixed(2));
 			}
 			return totalTaxArr;
 		},
