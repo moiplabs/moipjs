@@ -73,39 +73,46 @@ var moip = {
 
 	calculator: {
 
-		getPricing: function(json){
+		pricing: function(json){
 			return this.buildJson(json);
 		},
 
 		buildJson: function(json){
-
 			var transaction_tax;
+			var installmentValue;
 			var antecipationPercentageArr = new Array();
 			var totalTaxArr = new Array();
 			var liquidValueArr = new Array();
 
+			transaction_tax = this._calculateTransactionTax(json.amount, json.transaction_percentage, json.fixed);
+			installmentValue = this._calculateInstallmentValue(json.amount, json.installment);
+
 			for(i = 0; i <= 11; i++){
-				transaction_tax = (json.amount * (json.transaction_percentage / 100) + json.fixed) / 100;
-
-				antecipationPercentageArr[i] = this.getAntecipationPercentage(transaction_tax, json, i);
-				totalTaxArr[i] = this.getTotalTax(antecipationPercentageArr, transaction_tax, i);
-				liquidValueArr[i] = this.getLiquidValue(json.amount, totalTaxArr, i);
+				antecipationPercentageArr[i] = this._calculateAntecipationPercentage(transaction_tax, json, i);
+				totalTaxArr[i] = this._calculateTotalTax(antecipationPercentageArr[i], transaction_tax);
+				liquidValueArr[i] = this._calculateLiquidValue(json.amount, totalTaxArr[i]);
 			}
-
-			var jsonObj = { "amount" : json.amount/100, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr}
-			return jsonObj;
+			return { "amount" : json.amount/100, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr, "installment" : installmentValue}
 		},
 
-		getAntecipationPercentage: function(transaction_tax, json, position){
-			return parseFloat((parseFloat((json.antecipation_percentage / 100) / 30 * ((30 + (position) * 15) - json.floating)) * parseFloat((json.amount / 100) - transaction_tax)).toFixed(2));
+		_calculateTransactionTax: function(amount, transactionPercentage, fixed){
+			return (amount * (transactionPercentage / 100) + fixed) / 100;
 		},
 
-		getTotalTax: function(antecipation_percentage_arr, transaction_tax, position){
-			return parseFloat((antecipation_percentage_arr[position] + transaction_tax).toFixed(2));
+		_calculateAntecipationPercentage: function(transaction_tax, json, index){
+			return parseFloat((parseFloat((json.antecipation_percentage / 100) / 30 * ((30 + (index) * 15) - json.floating)) * parseFloat((json.amount / 100) - transaction_tax)).toFixed(2));
 		},
 
-		getLiquidValue: function(transactionValue, totalTaxArr, position){
-			return parseFloat(transactionValue)/100 + parseFloat(totalTaxArr[position]);
+		_calculateTotalTax: function(antecipation_percentage, transaction_tax){
+			return parseFloat((antecipation_percentage + transaction_tax).toFixed(2));
+		},
+
+		_calculateLiquidValue: function(transactionValue, totalTax){
+			return parseFloat(transactionValue)/100 + parseFloat(totalTax);
+		},
+
+		_calculateInstallmentValue: function(amount, installment){
+			return parseFloat(((amount / installment) / 100).toFixed(2));
 		}
 	}
 };
