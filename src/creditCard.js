@@ -1,4 +1,3 @@
-var moip = {
 	creditCard: {
 		isValid: function(creditCardNumber) {
 			creditCardNumber = creditCardNumber.replace(/\s+/g, '');

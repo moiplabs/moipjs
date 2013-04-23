@@ -86,7 +86,7 @@ test("MoIP Credit Card Validations", function() {
 		equal(response.liquid_value.length, 12, "Valor liquido deve conter 12 meses calculados");
 		equal(response.total_tax.length, 12, "Total de taxas deve conter 12 meses calculados");
 
-		equal(response.installment, 25, "Valor da parcela");
+		deepEqual(response.installment, [100,50,33.33,25,20,16.67,14.29,12.5,11.11,10,9.09,8.33], "Valor da parcela");
 
 		deepEqual(response.antecipation_percentage, [1.26, 2.43, 3.61, 4.79, 5.97, 7.15, 8.32, 9.5, 10.68, 11.86, 13.04, 14.21], "Valores de porcentagem de antecipação devem estar calculados corretamente");
 		deepEqual(response.liquid_value, [ 106.64, 107.81, 108.99, 110.17, 111.35, 112.53, 113.7, 114.88, 116.06, 117.24, 118.42, 119.59], "Valor liquido deve estar calculado corretamente");

@@ -3,6 +3,10 @@ module.exports = function(grunt) {
   grunt.initConfig({
     concat: {
       options: {
+        stripBanners: true,
+        stripFooters: true,
+        banner: "var moip = {\n",
+        footer: "\n};",
         separator: ','
       },
       dist: {
@@ -30,7 +34,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-concat');
 
-  grunt.registerTask('default', ['qunit','uglify']);
+  grunt.registerTask('default', ['concat', 'qunit','uglify']);
 
   grunt.registerTask('travis', ['qunit']);
 };

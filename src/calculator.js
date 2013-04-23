@@ -6,7 +6,7 @@
 
 		buildJson: function(json){
 			var transaction_tax;
-			var installmentValue;
+			var installmentValue = new Array();
 			var antecipationPercentageArr = new Array();
 			var totalTaxArr = new Array();
 			var liquidValueArr = new Array();
@@ -14,9 +14,10 @@
 			transaction_tax = this._calculateTransactionTax(json.amount, json.transaction_percentage, json.fixed);
 			
 			if (json.antecipation_percentage != undefined && json.floating != undefined && json.installment != undefined) {
-				installmentValue = this._calculateInstallmentValue(json.amount, json.installment);
+				
 
 				for(i = 0; i <= 11; i++){
+					installmentValue[i] = this._calculateInstallmentValue(json.amount, i + 1);
 					antecipationPercentageArr[i] = this._calculateAntecipationPercentage(transaction_tax, json, i);
 					totalTaxArr[i] = this._calculateTotalTax(antecipationPercentageArr[i], transaction_tax);
 					liquidValueArr[i] = this._calculateLiquidValue(json.amount, totalTaxArr[i]);
@@ -32,15 +33,16 @@
 			var interestRate = new Array();
 			var amount = new Array();
 			var transaction_tax;
-			var installmentValue;
+			var installmentValue = new Array();
 			var antecipationPercentageArr = new Array();
 			var totalTaxArr = new Array();
 			var liquidValueArr = new Array();
 
 			transaction_tax = this._calculateTransactionTax(json.amount, json.transaction_percentage, json.fixed);
-			installmentValue = this._calculateInstallmentValue(json.amount, json.installment);
+			
 
 			for (var i = 1; i <= 12; i++) {
+				installmentValue[i - 1] = this._calculateInstallmentValue(json.amount, i);
 				interestRate[i - 1] = this._calculateInterestRate(json.amount, json.interest_rate, i);
 				amount[i - 1] = this._calculateAmount(interestRate[i - 1], i);
 				antecipationPercentageArr[i - 1] = this._calculateAntecipationPercentage(transaction_tax, json, i - 1);
@@ -85,4 +87,3 @@
 			return parseFloat(((interestRate / 100)/(1-1/(Math.pow(((interestRate / 100)+1), installment)))).toFixed(10));
 		}
 	}
-};
