@@ -81,7 +81,7 @@ test("MoIP Credit Card Validations", function() {
 													"floating" : 14, 
 													"installment" : 4});
 
-		equal(response.amount, 100, "Valor da transação deve ser correto");
+		equal(response.amount, 10000, "Valor da transação deve ser correto");
 		equal(response.antecipation_percentage.length, 12, "Taxa de antecipação deve conter 12 meses calculados");
 		equal(response.liquid_value.length, 12, "Valor liquido deve conter 12 meses calculados");
 		equal(response.total_tax.length, 12, "Total de taxas deve conter 12 meses calculados");
@@ -94,7 +94,7 @@ test("MoIP Credit Card Validations", function() {
 
 
 		var otherPayments = moip.calculator.pricing({ "amount" : 10000, "fixed" : 69, "transaction_percentage" : 4.69});
-		equal(otherPayments.amount, 100, "Valor da transação de boleto/online/transferência deve ser correto");
+		equal(otherPayments.amount, 10000, "Valor da transação de boleto/online/transferência deve ser correto");
 		equal(otherPayments.transaction_tax, 5.38, "Taxa da transação de boleto/online/transferência deve ser correto");
 		equal(otherPayments.liquid_value, 94.62, "Valor liquido da transação de boleto/online/transferência deve ser correto");
 

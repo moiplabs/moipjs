@@ -93,10 +93,10 @@ var moip = {
 					totalTaxArr[i] = this._calculateTotalTax(antecipationPercentageArr[i], transaction_tax);
 					liquidValueArr[i] = this._calculateLiquidValue(json.amount, totalTaxArr[i]);
 				}
-				return { "amount" : json.amount/100, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr, "installment_value" : installmentValue};
+				return { "amount" : json.amount, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr, "installment_value" : installmentValue};
 			} else {
 				liquidValueArr = this._calculateLiquidValue(json.amount, transaction_tax);
-				return { "amount" : json.amount/100, "transaction_tax" : transaction_tax, "liquid_value" : liquidValueArr };
+				return { "amount" : json.amount, "transaction_tax" : transaction_tax, "liquid_value" : liquidValueArr };
 			};
 		},
 
