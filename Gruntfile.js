@@ -1,6 +1,15 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    concat: {
+      options: {
+        separator: ','
+      },
+      dist: {
+        src: ['src/creditCard.js', 'src/calculator.js'],
+        dest: 'build/moip.js'
+      }
+    },
     pkg: grunt.file.readJSON('package.json'),
     banner: "Moip.js",
     uglify: {
@@ -8,7 +17,7 @@ module.exports = function(grunt) {
         banner: '/*! <%= banner %> - build date: <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/<%= pkg.name %>.js',
+        src: 'build/moip.js',
         dest: 'build/<%= pkg.name %>.min.js'
       }
     },
@@ -18,7 +27,8 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-qunit')
+  grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('default', ['qunit','uglify']);
 

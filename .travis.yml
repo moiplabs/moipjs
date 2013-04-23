@@ -4,3 +4,4 @@ node_js:
   - "0.9"
 before_script:
   - npm install -g grunt-cli
+  - npm install grunt-contrib-concat --save-dev
