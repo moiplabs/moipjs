@@ -52,7 +52,7 @@
 		},
 
 		_calculateAntecipationPercentageFromAmount: function(amount, percent) {
-			return parseFloat((percent * 100) / (amount / 100));
+			return parseFloat((percent * 100) / (amount / 100)).toFixed(2);
 		},
 
 		_calculateTransactionTax: function(amount, transactionPercentage, fixed){
