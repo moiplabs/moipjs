@@ -106,6 +106,7 @@ var moip = {
 			var transaction_tax = new Array();
 			var installmentValue = new Array();
 			var antecipationPercentageArr = new Array();
+			var antecipationPercentageFromAmount = new Array();
 			var totalTaxArr = new Array();
 			var liquidValueArr = new Array();
 
@@ -114,10 +115,15 @@ var moip = {
 				amount[i - 1] = this._calculateAmount(interestRate[i - 1], i);
 				transaction_tax[i-1] = this._calculateTransactionTax(amount[i-1], json.transaction_percentage, json.fixed);
 				antecipationPercentageArr[i - 1] = this._calculateAntecipationPercentage(transaction_tax[i-1], json, i - 1, amount[i-1]);
+				antecipationPercentageFromAmount[i - 1] =  this._calculateAntecipationPercentageFromAmount(amount[i - 1], antecipationPercentageArr[i - 1]);
 				totalTaxArr[i -1] = this._calculateTotalTax(antecipationPercentageArr[i -1], transaction_tax[i-1]);
 				liquidValueArr[i -1] = this._calculateLiquidValue(amount[i-1], totalTaxArr[i -1]);
 			}
-			return { "amount" : amount, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageArr, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr, "installment_value" : interestRate};
+			return { "amount" : amount, "transaction_tax" : transaction_tax, "antecipation_percentage" : antecipationPercentageFromAmount, "total_tax" :  totalTaxArr, "liquid_value" : liquidValueArr, "installment_value" : interestRate};
+		},
+
+		_calculateAntecipationPercentageFromAmount: function(amount, percent) {
+			return parseFloat((percent * 100) / (amount / 100));
 		},
 
 		_calculateTransactionTax: function(amount, transactionPercentage, fixed){
