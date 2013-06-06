@@ -80,6 +80,40 @@ test("MoIP Credit Card Validations", function() {
 	type = moip.creditCard.cardType("2441111111111111");
 	equal(type, null);
 
+	valid = moip.creditCard.isExpiryDateValid(5, 2013);
+	equal(valid, false, "Data informada não é válida");
+
+	valid = moip.creditCard.isExpiredDate(5, 2013);
+	equal(valid, true, "Data informada está expirada");
+
+	valid = moip.creditCard.isExpiryDateValid("ab", "cd");
+	equal(valid, false, "Data informada não é numérica");
+
+	valid = moip.creditCard.isExpiryDateValid(00, 2013);
+	equal(valid, false, "Mês informado não é válido");
+
+	valid = moip.creditCard.isExpiryDateValid(13, 2013);
+	equal(valid, false, "Mês informado não é válido");
+
+	valid = moip.creditCard.isExpiryDateValid(5, 3000);
+	equal(valid, false, "Ano informado não é válido");
+
+	valid = moip.creditCard.isExpiryDateValid(5, 100);
+	equal(valid, false, "Ano informado não é válido");
+
+	valid = moip.creditCard.isExpiryDateValid(5, 98);
+	equal(valid, false, "Ano informado não é válido");
+
+	valid = moip.creditCard.isExpiredDate(5, 98);
+	equal(valid, true, "Ano informado está expirado");
+
+	valid = moip.creditCard.isExpiryDateValid(01, 14);
+	equal(valid, true, "Data informada é válida");
+
+	valid = moip.creditCard.isExpiredDate(01, 14);
+	equal(valid, false, "Data não está expirado");
+
+
 	var now = new Date();
 	var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+"");
 	equal(isExpiryDateValid, true);

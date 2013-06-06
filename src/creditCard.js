@@ -64,15 +64,37 @@
 		},
 
 		isExpiryDateValid: function(month, year) {
-			var now = new Date();
-			var thisMonth = now.getMonth() + 1;
-			var thisYear = now.getYear() + 1900;
-			var valid = false;
-			if(parseInt(year) >= thisYear) {
-				if(parseInt(month) >= thisMonth) {
-					valid = true;
+			if(month < 1 || month > 12)
+				return false;
+			if(!year.length == 2 || !year.length == 4)
+				return false;
+			if(year.toString().length == 2) {
+				if(year > 80) {
+					year = "19" + year;
+				} else {
+					year = "20" + year;
 				}
 			}
-			return valid;
+			if(year < 1000 || year >= 3000)
+				return false;
+			return !this.isExpiredDate(month, year);
+		},
+
+		isExpiredDate: function(month, year) {
+			var now = new Date();
+			var thisMonth = ("0" + (now.getMonth() + 1)).slice(-2);
+			var thisYear = now.getYear() + 1900;
+
+			month = ("0" + (month)).slice(-2);
+			if(year.toString().length == 2) {
+				if(year > 80) {
+					return true;
+				} else {
+					year = "20" + year;
+				}
+			}
+			var currentDate = thisYear + thisMonth;
+			var customerDate = year + month;
+			return parseInt(customerDate) < parseInt(currentDate)
 		},
 	}
