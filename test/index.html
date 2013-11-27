@@ -5,163 +5,190 @@
 <title>MoIP Javascript Validations</title>
 <link rel="stylesheet" href="qunit.css">
 <script src="qunit.js"></script>
-<script src="../build/moip.js"></script>
+<script src="../src/creditCard.js"></script>
+<script src="../src/calculator.js"></script>
 <script>
-test("MoIP Credit Card Validations", function() {
-	var valid = moip.creditCard.isValid("4111111111111111");
-	equal(valid, true, "Cartão VISA válido sem espaços");
+module("MoIP Credit Card Validations");
 
-	valid = moip.creditCard.isValid("4222222222222");
-	equal(valid, false, "Cartão VISA válido sem espaços");
+test("Cartão VISA", function() {
+    var valid = moip.creditCard.isValid("4111111111111111");
+    equal(valid, true, "Cartão VISA válido sem espaços");
 
-	valid = moip.creditCard.isValid("4111 1111 1111 1111");
-	equal(valid, true, "Cartão VISA válido com espaços");
+    valid = moip.creditCard.isValid("4222222222222");
+    equal(valid, false, "Cartão VISA válido sem espaços");
 
-	valid = moip.creditCard.isValid("4111.1111.1111.1111");
-	equal(valid, true, "Cartão VISA válido com pontuação");
+    valid = moip.creditCard.isValid("4111 1111 1111 1111");
+    equal(valid, true, "Cartão VISA válido com espaços");
 
-	valid = moip.creditCard.isValid("4111-1111-1111-1111");
-	equal(valid, true, "Cartão VISA válido com hifens");
+    valid = moip.creditCard.isValid("4111.1111.1111.1111");
+    equal(valid, true, "Cartão VISA válido com pontuação");
 
-	valid = moip.creditCard.isValid("4000000000000000");
-	equal(valid, false, "Cartão VISA inválido sem espaços");
+    valid = moip.creditCard.isValid("4111-1111-1111-1111");
+    equal(valid, true, "Cartão VISA válido com hifens");
 
-	valid = moip.creditCard.isValid("5555666677778884");
-	equal(valid, true, "Cartão MASTERCARD válido sem espaços");
+    valid = moip.creditCard.isValid("4000000000000000");
+    equal(valid, false, "Cartão VISA inválido sem espaços");
+});
 
-	valid = moip.creditCard.isValid("5105105105105100");
-	equal(valid, true, "Cartão MASTERCARD válido sem espaços");
+test("Cartão MASTERCARD", function() {
+    valid = moip.creditCard.isValid("5555666677778884");
+    equal(valid, true, "Cartão MASTERCARD válido sem espaços");
 
-	valid = moip.creditCard.isValid("5105105105105120");
-	equal(valid, false, "Cartão MASTERCARD inválido sem espaços");
+    valid = moip.creditCard.isValid("5105105105105100");
+    equal(valid, true, "Cartão MASTERCARD válido sem espaços");
 
-	valid = moip.creditCard.isValid("30569309025904");
-	equal(valid, true, "Cartão DINERS válido sem espaços");
+    valid = moip.creditCard.isValid("5105105105105120");
+    equal(valid, false, "Cartão MASTERCARD inválido sem espaços");
+});
 
-	valid = moip.creditCard.isValid("378282246310005");
-	equal(valid, true, "Cartão AMEX válido sem espaços com 16 dígitos");
+test("Cartão DINERS", function() {
+    valid = moip.creditCard.isValid("30569309025904");
+    equal(valid, true, "Cartão DINERS válido sem espaços");
+});
+    
+test("Cartão AMEX", function() {
+    valid = moip.creditCard.isValid("378282246310005");
+    equal(valid, true, "Cartão AMEX válido sem espaços com 16 dígitos");
+});
 
-	valid = moip.creditCard.isValid("3841001111222233334");
-	equal(valid, true, "Cartão HIPERCARD válido sem espaços com 19 dígitos");
+test("Cartão HIPERCARD", function() {
+    valid = moip.creditCard.isValid("3841001111222233334");
+    equal(valid, true, "Cartão HIPERCARD válido sem espaços com 19 dígitos");
 
-	valid = moip.creditCard.isValid("6062825607632328");
-	equal(valid, true, "Cartão HIPERCARD válido sem espaços");
+    valid = moip.creditCard.isValid("6062825607632328");
+    equal(valid, true, "Cartão HIPERCARD válido sem espaços");
 
-	valid = moip.creditCard.isValid("6062 8256 0763 2328");
-	equal(valid, true, "Cartão HIPERCARD válido com espaços");
+    valid = moip.creditCard.isValid("6062 8256 0763 2328");
+    equal(valid, true, "Cartão HIPERCARD válido com espaços");
 
-	valid = moip.creditCard.cardType("6062825607632328");
-	equal("HIPERCARD", valid['brand'], "Cartão HIPER válido sem espaços");
+    valid = moip.creditCard.cardType("6062825607632328");
+    equal("HIPERCARD", valid['brand'], "Cartão HIPER válido sem espaços");
+});
 
-	var cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
-	equal(cscValid, true);
+test("moip.creditCard.isSecurityCodeValid", function() {
+    var cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
+    equal(cscValid, true);
 
-  	cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "1234");
-	equal(cscValid, false);
+    cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "1234");
+    equal(cscValid, false);
 
-	cscValid = moip.creditCard.isSecurityCodeValid("378282246310005", "1234");
-	equal(cscValid, true, "CVV Cartão AMEX deve conter 4 digitos");
+    cscValid = moip.creditCard.isSecurityCodeValid("378282246310005", "1234");
+    equal(cscValid, true, "CVV Cartão AMEX deve conter 4 digitos");
+});
 
-	var type = moip.creditCard.cardType("5105105105105100");
-	equal(type["brand"], "MASTERCARD");
+test("moip.creditCard.cardType", function() {
+    var type = moip.creditCard.cardType("5105105105105100");
+    equal(type["brand"], "MASTERCARD");
 
-	type = moip.creditCard.cardType("4111111111111111");
-	equal(type["brand"], "VISA");
+    type = moip.creditCard.cardType("4111111111111111");
+    equal(type["brand"], "VISA");
 
-	type = moip.creditCard.cardType("4111 1111 1111 1111");
-	equal(type["brand"], "VISA");
+    type = moip.creditCard.cardType("4111 1111 1111 1111");
+    equal(type["brand"], "VISA");
 
-	type = moip.creditCard.cardType("341111111111111");
-	equal(type["brand"], "AMEX");
+    type = moip.creditCard.cardType("341111111111111");
+    equal(type["brand"], "AMEX");
 
-	type = moip.creditCard.cardType("3841001111222233334");
-	equal(type["brand"], "HIPERCARD");
+    type = moip.creditCard.cardType("3841001111222233334");
+    equal(type["brand"], "HIPERCARD");
 
-	type = moip.creditCard.cardType("2441111111111111");
-	equal(type, null);
+    type = moip.creditCard.cardType("2441111111111111");
+    equal(type, null);
+});  
 
-	valid = moip.creditCard.isExpiryDateValid(5, 2013);
-	equal(valid, false, "Data informada não é válida");
+test("moip.creditCard.isExpiryDateValid", function() {
+    var valid = moip.creditCard.isExpiryDateValid(5, 2013);
+    equal(valid, false, "Data informada não é válida");
 
-	valid = moip.creditCard.isExpiredDate(5, 2013);
-	equal(valid, true, "Data informada está expirada");
+    valid = moip.creditCard.isExpiryDateValid("ab", "cd");
+    equal(valid, false, "Data informada não é numérica");
 
-	valid = moip.creditCard.isExpiryDateValid("ab", "cd");
-	equal(valid, false, "Data informada não é numérica");
+    valid = moip.creditCard.isExpiryDateValid(00, 2013);
+    equal(valid, false, "Mês informado não é válido");
 
-	valid = moip.creditCard.isExpiryDateValid(00, 2013);
-	equal(valid, false, "Mês informado não é válido");
+    valid = moip.creditCard.isExpiryDateValid(13, 2013);
+    equal(valid, false, "Mês informado não é válido");
 
-	valid = moip.creditCard.isExpiryDateValid(13, 2013);
-	equal(valid, false, "Mês informado não é válido");
+    valid = moip.creditCard.isExpiryDateValid(5, 3000);
+    equal(valid, false, "Ano informado não é válido");
 
-	valid = moip.creditCard.isExpiryDateValid(5, 3000);
-	equal(valid, false, "Ano informado não é válido");
+    valid = moip.creditCard.isExpiryDateValid(5, 100);
+    equal(valid, false, "Ano informado não é válido");
 
-	valid = moip.creditCard.isExpiryDateValid(5, 100);
-	equal(valid, false, "Ano informado não é válido");
+    valid = moip.creditCard.isExpiryDateValid(5, 98);
+    equal(valid, false, "Ano informado não é válido");
 
-	valid = moip.creditCard.isExpiryDateValid(5, 98);
-	equal(valid, false, "Ano informado não é válido");
+    valid = moip.creditCard.isExpiryDateValid(01, 14);
+    equal(valid, true, "Data informada é válida");
 
-	valid = moip.creditCard.isExpiredDate(5, 98);
-	equal(valid, true, "Ano informado está expirado");
+    var now = new Date();
+    var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+"");
+    equal(isExpiryDateValid, true);
 
-	valid = moip.creditCard.isExpiryDateValid(01, 14);
-	equal(valid, true, "Data informada é válida");
+    isExpiryDateValid = moip.creditCard.isExpiryDateValid("10", "2010");
+    equal(isExpiryDateValid, false);
+});
 
-	valid = moip.creditCard.isExpiredDate(01, 14);
-	equal(valid, false, "Data não está expirado");
+test("moip.creditCard.isExpiredDate", function() {
+    var valid = moip.creditCard.isExpiredDate(5, 2013);
+    equal(valid, true, "Data informada está expirada");
 
+    valid = moip.creditCard.isExpiredDate(5, 98);
+    equal(valid, true, "Ano informado está expirado");
 
-	var now = new Date();
-	var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+"");
-	equal(isExpiryDateValid, true);
+    valid = moip.creditCard.isExpiredDate(01, 14);
+    equal(valid, false, "Data não está expirado");
+});
 
-	isExpiryDateValid = moip.creditCard.isExpiryDateValid("10", "2010");
-	equal(isExpiryDateValid, false);
-	});
+module("MoIP Calculator Tests");
 
-	test("MoIP Calculator Tests", function() {
-		var response = moip.calculator.pricing({ 	"amount" : 10000,
-													"fixed" : 69,
-													"transaction_percentage" : 4.69,
-													"antecipation_percentage" : 2.49,
-													"floating" : 14,
-													"installment" : 4});
+test("moip.calculator.pricing", function() {
+    var response = moip.calculator.pricing({    
+        "amount" : 10000,
+        "fixed" : 69,
+        "transaction_percentage" : 4.69,
+        "antecipation_percentage" : 2.49,
+        "floating" : 14,
+        "installment" : 4
+    });
 
-		equal(response.amount, 10000, "Valor da transação deve ser correto");
-		equal(response.antecipation_percentage.length, 12, "Taxa de antecipação deve conter 12 meses calculados");
-		equal(response.liquid_value.length, 12, "Valor liquido deve conter 12 meses calculados");
-		equal(response.total_tax.length, 12, "Total de taxas deve conter 12 meses calculados");
+    equal(response.amount, 10000, "Valor da transação deve ser correto");
+    equal(response.antecipation_percentage.length, 12, "Taxa de antecipação deve conter 12 meses calculados");
+    equal(response.liquid_value.length, 12, "Valor liquido deve conter 12 meses calculados");
+    equal(response.total_tax.length, 12, "Total de taxas deve conter 12 meses calculados");
 
-		deepEqual(response.installment_value, [100,50,33.33,25,20,16.67,14.29,12.5,11.11,10,9.09,8.33], "Valor da parcela");
+    deepEqual(response.installment_value, [100,50,33.33,25,20,16.67,14.29,12.5,11.11,10,9.09,8.33], "Valor da parcela");
 
-		deepEqual(response.antecipation_percentage, [1.26, 2.43, 3.61, 4.79, 5.97, 7.15, 8.32, 9.5, 10.68, 11.86, 13.04, 14.21], "Valores de porcentagem de antecipação devem estar calculados corretamente");
-		deepEqual(response.liquid_value, [93.36,92.19,91.01,89.83,88.65,87.47,86.3,85.12,83.94,82.76,81.58,80.41], "Valor liquido deve estar calculado corretamente");
-		deepEqual(response.total_tax, [ 6.64, 7.81, 8.99, 10.17, 11.35, 12.53, 13.70, 14.88, 16.06, 17.24, 18.42, 19.59], "Valor total deve estar calculado corretamente");
+    deepEqual(response.antecipation_percentage, [1.26, 2.43, 3.61, 4.79, 5.97, 7.15, 8.32, 9.5, 10.68, 11.86, 13.04, 14.21], "Valores de porcentagem de antecipação devem estar calculados corretamente");
+    deepEqual(response.liquid_value, [93.36,92.19,91.01,89.83,88.65,87.47,86.3,85.12,83.94,82.76,81.58,80.41], "Valor liquido deve estar calculado corretamente");
+    deepEqual(response.total_tax, [ 6.64, 7.81, 8.99, 10.17, 11.35, 12.53, 13.70, 14.88, 16.06, 17.24, 18.42, 19.59], "Valor total deve estar calculado corretamente");
+});
+    
+    
+test("moip.calculator.pricing otherPayments", function() {
+    var otherPayments = moip.calculator.pricing({ "amount" : 10000, "fixed" : 69, "transaction_percentage" : 4.69});
+    equal(otherPayments.amount, 10000, "Valor da transação de boleto/online/transferência deve ser correto");
+    equal(otherPayments.transaction_tax, 5.38, "Taxa da transação de boleto/online/transferência deve ser correto");
+    equal(otherPayments.liquid_value, 94.62, "Valor liquido da transação de boleto/online/transferência deve ser correto");
+});
 
+test("moip.", function() {
+    var response = moip.calculator.pricingWithInterest({
+        "amount" : 10000,
+        "fixed" : 69,
+        "transaction_percentage" : 4.69,
+        "antecipation_percentage" : 2.49,
+        "floating" : 14,
+        "installment" : 4,
+        "interest_rate" : 1.99
+    });
 
-		var otherPayments = moip.calculator.pricing({ "amount" : 10000, "fixed" : 69, "transaction_percentage" : 4.69});
-		equal(otherPayments.amount, 10000, "Valor da transação de boleto/online/transferência deve ser correto");
-		equal(otherPayments.transaction_tax, 5.38, "Taxa da transação de boleto/online/transferência deve ser correto");
-		equal(otherPayments.liquid_value, 94.62, "Valor liquido da transação de boleto/online/transferência deve ser correto");
+    deepEqual(response.amount, [10000,10300,10401,10504,10605,10710,10815,10920,11025,11130,11231,11340] , "Valor total com juros");
 
-		var response = moip.calculator.pricingWithInterest({ 	"amount" : 10000,
-													"fixed" : 69,
-													"transaction_percentage" : 4.69,
-													"antecipation_percentage" : 2.49,
-													"floating" : 14,
-													"installment" : 4,
-													"interest_rate" : 1.99});
+    deepEqual(response.installment_value, [100,51.5,34.67,26.26,21.21,17.85,15.45,13.65,12.25,11.13,10.21,9.45] , "Valor de antecipação total com juros");
 
-		deepEqual(response.amount, [10000,10300,10401,10504,10605,10710,10815,10920,11025,11130,11231,11340] , "Valor total com juros");
-
-		deepEqual(response.installment_value, [100,51.5,34.67,26.26,21.21,17.85,15.45,13.65,12.25,11.13,10.21,9.45] , "Valor de antecipação total com juros");
-
-		deepEqual(response.liquid_value, [93.36,94.97,94.68,94.39,94.06,93.73,93.38,93.01,92.61,92.18,91.7,91.26], "Valor liquido da transação com juros");
-
-	});
+    deepEqual(response.liquid_value, [93.36,94.97,94.68,94.39,94.06,93.73,93.38,93.01,92.61,92.18,91.7,91.26], "Valor liquido da transação com juros");
+});
 </script>
 </head>
 <body>
