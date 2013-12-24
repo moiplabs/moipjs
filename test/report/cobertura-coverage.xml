@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="115"  lines-covered="115"  line-rate="1"  branches-valid="53"  branches-covered="52"  branch-rate="0.9811"  timestamp="1385586482445" complexity="0" version="0.1">
+<coverage lines-valid="115"  lines-covered="115"  line-rate="1"  branches-valid="53"  branches-covered="52"  branch-rate="0.9811"  timestamp="1387896801726" complexity="0" version="0.1">
 <sources>
-	<source>/Users/leobalter/dev/moipjs</source>
+	<source>/vagrant/work/node/moipjs</source>
 </sources>
 <packages>
 	<package name="src"  line-rate="1"  branch-rate="0.9811" >
