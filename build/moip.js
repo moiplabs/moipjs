@@ -102,7 +102,7 @@
         isExpiredDate: function(month, year) {
             var now = new Date();
             var thisMonth = ("0" + (now.getMonth() + 1)).slice(-2);
-            var thisYear = now.getYear() + 1900;
+            var thisYear = now.getFullYear();
 
             month = ("0" + (month)).slice(-2);
             if(year.toString().length === 2) {
@@ -119,6 +119,7 @@
     };
     
 })(window);
+
 (function(window) {
     var moip = window.moip || {};
     window.moip = moip;
