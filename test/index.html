@@ -118,7 +118,7 @@ test("moip.creditCard.isExpiryDateValid", function() {
     valid = moip.creditCard.isExpiryDateValid(5, 98);
     equal(valid, false, "Ano informado não é válido");
 
-    valid = moip.creditCard.isExpiryDateValid(01, 14);
+    valid = moip.creditCard.isExpiryDateValid(01, 42);
     equal(valid, true, "Data informada é válida");
 
     var now = new Date();
@@ -136,7 +136,7 @@ test("moip.creditCard.isExpiredDate", function() {
     valid = moip.creditCard.isExpiredDate(5, 98);
     equal(valid, true, "Ano informado está expirado");
 
-    valid = moip.creditCard.isExpiredDate(01, 14);
+    valid = moip.creditCard.isExpiredDate(01, 42);
     equal(valid, false, "Data não está expirado");
 });
 
