@@ -2,14 +2,27 @@
     var moip = window.moip || {};
     window.moip = moip;
 
-    moip.creditCard = {
-        isValid: function(creditCardNumber) {
-            creditCardNumber = creditCardNumber.replace(/\s+/g, '');
-            creditCardNumber = creditCardNumber.replace(/\./g, '');
-            creditCardNumber = creditCardNumber.replace(/\-/g, '');
+    function normalizeCardNumber(cardNumber) {
 
-            var cardType = this.cardType(creditCardNumber);
-            if (cardType === null){
+        // converts it's value to a string
+        cardNumber += '';
+
+        return cardNumber.replace(/[\s+|\.|\-]/g, '');
+    }
+
+    function CreditCard() {
+        if ( !( this instanceof CreditCard ) ) {
+            return new CreditCard();
+        }
+    }
+
+    CreditCard.prototype = {
+        isValid: function(creditCardNumber) {
+            var cardType = CreditCard.prototype.cardType(creditCardNumber);
+
+            creditCardNumber = normalizeCardNumber(creditCardNumber);
+
+            if (!cardType){
                 return false;
             } else if (cardType.brand === "HIPERCARD") {
                 return true; // There's no validation for hipercard.
@@ -32,37 +45,39 @@
             }
         },
 
-        cardType: function(creditCardNumber) {
-            creditCardNumber = creditCardNumber.replace(/\s+/g, '');
-            creditCardNumber = creditCardNumber.replace('.', '');
-            creditCardNumber = creditCardNumber.replace('-', '');
-            var regexpVisa = /^4\d{3}-?\d{4}-?\d{4}-?\d{4}$/;
-            var regexpMaster = /^5[1-5]\d{2}-?\d{4}-?\d{4}-?\d{4}$/;
-            var regexpAmex = /^3[4,7]\d{13}$/;
-            var regexpDiners = /^3[0,6,8]\d{12}$/;
-            var regexHiper = /^(606282\d{10}(\d{3})?)|(3841\d{15})$/;
+        cardType: function(creditCardNumber, loose) {
+            var brand, result,
+                brands = {
+                    VISA: /^4\d{3}-?\d{4}-?\d{4}-?\d{4}$/,
+                    MASTERCARD: /^5[1-5]\d{2}-?\d{4}-?\d{4}-?\d{4}$/,
+                    AMEX: /^3[4,7]\d{13}$/,
+                    DINERS: /^3[0,6,8]\d{12}$/,
+                    HIPERCARD: /^(606282\d{10}(\d{3})?)|(3841\d{15})$/
+                },
 
-            if(creditCardNumber.match(regexpVisa)) {
-                return {"brand":"VISA"};
+                // for non-strict detections
+                looseBrands = {
+                    VISA: /^4\d{3}-?\d{2}/,
+                    MASTERCARD: /^5[1-5]\d{2}-?\d{2}/,
+                    AMEX: /^3[4,7]\d{2}/,
+                    DINERS: /^3(?:0[0-5]|[68][0-9])+/,
+                    HIPERCARD: /^606282|3841\d{2}/
+                };
+
+            creditCardNumber = normalizeCardNumber(creditCardNumber);
+
+            if (loose) {
+                brands = looseBrands;
             }
 
-            if(creditCardNumber.match(regexpMaster)) {
-                return {"brand":"MASTERCARD"};
+            for (brand in brands) {
+                if (brands.hasOwnProperty(brand) &&
+                    creditCardNumber.match(brands[brand])) {
+                    result = { brand : brand };
+                }
             }
 
-            if(creditCardNumber.match(regexpAmex)) {
-                return {"brand": "AMEX"};
-            }
-
-            if(creditCardNumber.match(regexpDiners)) {
-                return {"brand": "DINERS"};
-            }
-
-            if(creditCardNumber.match(regexHiper)) {
-                return {"brand": "HIPERCARD"};
-            }
-
-            return null;
+            return result;
         },
 
         isSecurityCodeValid: function(creditCardNumber, csc) {
@@ -96,7 +111,7 @@
             if(year < 1000 || year >= 3000) {
                 return false;
             }
-            return !this.isExpiredDate(month, year);
+            return !CreditCard.prototype.isExpiredDate(month, year);
         },
 
         isExpiredDate: function(month, year) {
@@ -117,6 +132,8 @@
             return parseInt(customerDate, 10) < parseInt(currentDate, 10);
         }
     };
+
+    moip.creditCard = CreditCard();
     
 })(window);
 

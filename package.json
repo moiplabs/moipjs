@@ -2,12 +2,12 @@
   "name": "moip",
   "version": "1.0.1",
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-nodeunit": "~0.3.0",
-    "grunt-contrib-uglify": "~0.3.2",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-qunit-istanbul": "~0.3.0"
+    "grunt": "0.4.2",
+    "grunt-contrib-concat": "0.3.0",
+    "grunt-contrib-jshint": "0.8.0",
+    "grunt-contrib-uglify": "0.3.2",
+    "grunt-qunit-istanbul": "0.3.0",
+    "qunitjs": "1.14.0"
   },
   "scripts": {
     "test": "grunt travis --verbose"
