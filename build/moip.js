@@ -53,7 +53,24 @@
                     AMEX: /^3[4,7]\d{13}$/,
                     DINERS: /^3[0,6,8]\d{12}$/,
                     HIPERCARD: /^(606282\d{10}(\d{3})?)|(3841\d{15})$/,
-                    ELO:/^(636368|438935|504175|451416|636297|5067|4576|4011)/
+                    ELO:/^(506(699|7[0-6][0-9]|77[0-8])|509([0-9][0-9][0-9])|636368|636297|504175|438935|401179|401178|457631|457632|451416|627780|457393|431274)/
+                    /*
+                        Como a validação do padrão ELO ficou bem longa, segue uma lista com os BINs que são validados.
+                        1° bloco => De 506699 á 506778
+                        2° bloco => De 509000 á 509999
+                        3° bloco => 636368
+                                            4° bloco => 636297
+                                            5° bloco => 504175
+                                            6° bloco => 438935
+                                            7° bloco => 401179
+                                            8° bloco => 401178
+                                            9° bloco => 457631
+                                            10° bloco => 457632
+                                            11° bloco => 451416
+                                            12° bloco => 627780
+                                            13° bloco => 457393
+                                            14° bloco => 431274
+                    */
                 },
 
                 // for non-strict detections
@@ -63,7 +80,24 @@
                     AMEX: /^3[4,7]\d{2}/,
                     DINERS: /^3(?:0[0-5]|[68][0-9])+/,
                     HIPERCARD: /^606282|3841\d{2}/,
-                    ELO:/^(636368|438935|504175|451416|636297|5067|4576|4011)/
+                    ELO:/^(506(699|7[0-6][0-9]|77[0-8])|509([0-9][0-9][0-9])|636368|636297|504175|438935|401179|401178|457631|457632|451416|627780|457393|431274)/
+                    /*
+                        Como a validação do padrão ELO ficou bem longa, segue uma lista com os BINs que são validados.
+                        1° bloco => De 506699 á 506778
+                        2° bloco => De 509000 á 509999
+                        3° bloco => 636368
+                                            4° bloco => 636297
+                                            5° bloco => 504175
+                                            6° bloco => 438935
+                                            7° bloco => 401179
+                                            8° bloco => 401178
+                                            9° bloco => 457631
+                                            10° bloco => 457632
+                                            11° bloco => 451416
+                                            12° bloco => 627780
+                                            13° bloco => 457393
+                                            14° bloco => 431274
+                    */
                 };
 
             creditCardNumber = normalizeCardNumber(creditCardNumber);
