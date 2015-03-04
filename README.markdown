@@ -38,6 +38,7 @@ moip.creditCard.cardType("4111111111111111");    //return [Object]VISA
 moip.creditCard.cardType("341111111111111");     //return [Object]AMEX
 moip.creditCard.cardType("30569309025904");      //return [Object]DINERS
 moip.creditCard.cardType("3841001111222233334"); //return [Object]HIPERCARD
+moip.creditCard.cardType("4514160123456789");    //return [Object]ELO
 moip.creditCard.cardType("9191919191919191");    //return [Object]null
 
 card = moip.creditCard.cardType("5105105105105100"); 
@@ -50,6 +51,7 @@ Object: [brand]
  * AMEX
  * DINERS
  * HIPERCARD
+ * ELO
 
 ### Verificado se a data de expiração do cartão
 ``` javascript
