@@ -35,6 +35,15 @@ QUnit.test("Visa", function() {
     this.strictList(valids, moip.creditCard.isValid);
 });
 
+QUnit.test("Elo", function() {
+    var valids = {
+            "valid number": ["6362970000457013", true],
+            "invalid number": ["6362970000457014", false]
+        };
+
+    this.strictList(valids, moip.creditCard.isValid);
+});
+
 QUnit.test("Mastercard", function() {
     var valids = {
             "valid number": ["5555666677778884", true],
@@ -94,6 +103,8 @@ QUnit.test("moip.creditCard.cardType", function(assert) {
     assert.deepEqual(moip.creditCard.cardType("3841001111222233334"), {"brand": "HIPERCARD"});
 
     assert.deepEqual(moip.creditCard.cardType("6062825607632328"), {"brand": "HIPERCARD"});
+    
+    assert.deepEqual(moip.creditCard.cardType("4514160123456789"), {"brand" : "ELO"});
 
     assert.equal(moip.creditCard.cardType("2441111111111111"), null);
 });
@@ -123,6 +134,9 @@ QUnit.test("moip.creditCard.cardType loose check", function(assert) {
 
     assert.deepEqual(moip.creditCard.cardType("606282", loose), {"brand": "HIPERCARD"}, "loosely HIPERCARD => 606282");
     assert.notDeepEqual(moip.creditCard.cardType("606282"), {"brand": "HIPERCARD"});
+    
+    assert.deepEqual(moip.creditCard.cardType("451416", loose), {"brand" : "ELO"}, "loosely ELO => 451416");
+    assert.notDeepEqual(moip.creditCard.cardType("451416"), {"brand": "ELO"});
 });
 
 QUnit.test("moip.creditCard.isExpiryDateValid", function(assert) {

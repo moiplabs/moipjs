@@ -46,22 +46,48 @@
         },
 
         cardType: function(creditCardNumber, loose) {
-            var brand, result,
-                brands = {
-                    VISA: /^4\d{3}-?\d{4}-?\d{4}-?\d{4}$/,
-                    MASTERCARD: /^5[1-5]\d{2}-?\d{4}-?\d{4}-?\d{4}$/,
-                    AMEX: /^3[4,7]\d{13}$/,
-                    DINERS: /^3[0,6,8]\d{12}$/,
-                    HIPERCARD: /^(606282\d{10}(\d{3})?)|(3841\d{15})$/
+            var brands = {
+                    VISA:       { matches: function(cardNum){ return /^4\d{15}$/.test(cardNum); } },
+                    MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum); } },
+                    AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{13}$/.test(cardNum); } },
+                    DINERS:     { matches: function(cardNum){ return /^3[0,6,8]\d{12}$/.test(cardNum); } },
+                    HIPERCARD:  { matches: function(cardNum){ return /^(606282\d{10}(\d{3})?)|(3841\d{15})$/.test(cardNum); } },
+                    ELO:        { matches: function(cardNum){
+                                    var eloBins = [
+                                        "50670","50671","50672","50673","50674","50675","50676","50900","50901","50902",
+                                        "50903","50904","50905","50906","50907","401178","401179","431274","438935","451416",
+                                        "457393","457631","457632","504175","506699","506770","506771","506772","506773","506774",
+                                        "506775","506776","506777","506778","509080","509081","509082","509083","627780","636297"
+                                    ];
+                                    if (cardNum === null || cardNum.length != 16){
+                                        return false;
+                                    }
+                                    return ( eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                             eloBins.indexOf(cardNum.substring(0,5)) > -1
+                                           );
+                                } }
                 },
-
                 // for non-strict detections
                 looseBrands = {
-                    VISA: /^4\d{3}-?\d{2}/,
-                    MASTERCARD: /^5[1-5]\d{2}-?\d{2}/,
-                    AMEX: /^3[4,7]\d{2}/,
-                    DINERS: /^3(?:0[0-5]|[68][0-9])+/,
-                    HIPERCARD: /^606282|3841\d{2}/
+                    VISA:       { matches: function(cardNum){ return /^4\d{3}\d*$/.test(cardNum); } },
+                    MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{4}\d*$/.test(cardNum); } },
+                    AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{2}\d*$/.test(cardNum); } },
+                    DINERS:     { matches: function(cardNum){ return /^3(?:0[0-5]|[68][0-9])+\d*$/.test(cardNum); } },
+                    HIPERCARD:  { matches: function(cardNum){ return /^(606282|3841\d{2})\d*$/.test(cardNum); } },
+                    ELO:        { matches: function(cardNum){
+                                    var eloBins = [
+                                        "50670","50671","50672","50673","50674","50675","50676","50900","50901","50902",
+                                        "50903","50904","50905","50906","50907","401178","401179","431274","438935","451416",
+                                        "457393","457631","457632","504175","506699","506770","506771","506772","506773","506774",
+                                        "506775","506776","506777","506778","509080","509081","509082","509083","627780","636297"
+                                    ];
+                                    if (cardNum === null || cardNum.length < 6){
+                                        return false;
+                                    }
+                                    return ( eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                             eloBins.indexOf(cardNum.substring(0,5)) > -1
+                                           );
+                                } }
                 };
 
             creditCardNumber = normalizeCardNumber(creditCardNumber);
@@ -70,14 +96,18 @@
                 brands = looseBrands;
             }
 
-            for (brand in brands) {
-                if (brands.hasOwnProperty(brand) &&
-                    creditCardNumber.match(brands[brand])) {
-                    result = { brand : brand };
-                }
-            }
 
-            return result;
+            // order is mandatory:
+            // a) VISA is identified by the broad prefix '4', shadowing more specific ELO prefixes
+            // b) HIPERCARD has precendence over DINERS for prefix 3841 (loose check)
+            if (brands.ELO.matches(creditCardNumber))          { return {brand:'ELO'}; }
+            if (brands.VISA.matches(creditCardNumber))         { return {brand:'VISA'}; }
+            if (brands.MASTERCARD.matches(creditCardNumber))   { return {brand:'MASTERCARD'}; }
+            if (brands.AMEX.matches(creditCardNumber))         { return {brand:'AMEX'}; }
+            if (brands.HIPERCARD.matches(creditCardNumber))    { return {brand:'HIPERCARD'}; }
+            if (brands.DINERS.matches(creditCardNumber))       { return {brand:'DINERS'}; }
+            
+            return null;
         },
 
         isSecurityCodeValid: function(creditCardNumber, csc) {
