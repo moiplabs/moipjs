@@ -17,6 +17,13 @@
     }
 
     CreditCard.prototype = {
+
+        _eloBins : ["50670","50671","50672","50673","50674","50675","50676","50900","50901","50902",
+                    "50903","50904","50905","50906","50907","401178","401179","431274","438935","451416",
+                    "457393","457631","457632","504175","506699","506770","506771","506772","506773","506774",
+                    "506775","506776","506777","506778","509080","509081","509082","509083","627780","636297"],
+        _hiperBins : ["637095", "637612", "637599", "637609", "637568"],
+    
         isValid: function(creditCardNumber) {
             var cardType = CreditCard.prototype.cardType(creditCardNumber);
 
@@ -46,6 +53,7 @@
         },
 
         cardType: function(creditCardNumber, loose) {
+            var that = this;
             var brands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{15}$/.test(cardNum); } },
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum); } },
@@ -53,19 +61,24 @@
                     DINERS:     { matches: function(cardNum){ return /^3[0,6,8]\d{12}$/.test(cardNum); } },
                     HIPERCARD:  { matches: function(cardNum){ return /^(606282\d{10}(\d{3})?)|(3841\d{15})$/.test(cardNum); } },
                     ELO:        { matches: function(cardNum){
-                                    var eloBins = [
-                                        "50670","50671","50672","50673","50674","50675","50676","50900","50901","50902",
-                                        "50903","50904","50905","50906","50907","401178","401179","431274","438935","451416",
-                                        "457393","457631","457632","504175","506699","506770","506771","506772","506773","506774",
-                                        "506775","506776","506777","506778","509080","509081","509082","509083","627780","636297"
-                                    ];
                                     if (cardNum === null || cardNum.length != 16){
                                         return false;
                                     }
-                                    return ( eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                             eloBins.indexOf(cardNum.substring(0,5)) > -1
+                                    return (
+                                             that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                             that._eloBins.indexOf(cardNum.substring(0,5)) > -1
+                                           );
+                                } },
+                    HIPER:      { matches: function(cardNum){
+                                    if (cardNum === null || cardNum.length != 16){
+                                        return false;
+                                    }
+                                    return (
+                                             that._hiperBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                             that._hiperBins.indexOf(cardNum.substring(0,5)) > -1
                                            );
                                 } }
+                    
                 },
                 // for non-strict detections
                 looseBrands = {
@@ -75,19 +88,24 @@
                     DINERS:     { matches: function(cardNum){ return /^3(?:0[0-5]|[68][0-9])+\d*$/.test(cardNum); } },
                     HIPERCARD:  { matches: function(cardNum){ return /^(606282|3841\d{2})\d*$/.test(cardNum); } },
                     ELO:        { matches: function(cardNum){
-                                    var eloBins = [
-                                        "50670","50671","50672","50673","50674","50675","50676","50900","50901","50902",
-                                        "50903","50904","50905","50906","50907","401178","401179","431274","438935","451416",
-                                        "457393","457631","457632","504175","506699","506770","506771","506772","506773","506774",
-                                        "506775","506776","506777","506778","509080","509081","509082","509083","627780","636297"
-                                    ];
                                     if (cardNum === null || cardNum.length < 6){
                                         return false;
                                     }
-                                    return ( eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                             eloBins.indexOf(cardNum.substring(0,5)) > -1
+                                    return ( 
+                                            that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                            that._eloBins.indexOf(cardNum.substring(0,5)) > -1
+                                           );
+                                } },
+                    HIPER:      { matches: function(cardNum){
+                                    if (cardNum === null || cardNum.length < 6){
+                                        return false;
+                                    }
+                                    return (
+                                            that._hiperBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                            that._hiperBins.indexOf(cardNum.substring(0,5)) > -1
                                            );
                                 } }
+
                 };
 
             creditCardNumber = normalizeCardNumber(creditCardNumber);
@@ -101,6 +119,7 @@
             // a) VISA is identified by the broad prefix '4', shadowing more specific ELO prefixes
             // b) HIPERCARD has precendence over DINERS for prefix 3841 (loose check)
             if (brands.ELO.matches(creditCardNumber))          { return {brand:'ELO'}; }
+            if (brands.HIPER.matches(creditCardNumber))        { return {brand:'HIPER'}; }
             if (brands.VISA.matches(creditCardNumber))         { return {brand:'VISA'}; }
             if (brands.MASTERCARD.matches(creditCardNumber))   { return {brand:'MASTERCARD'}; }
             if (brands.AMEX.matches(creditCardNumber))         { return {brand:'AMEX'}; }

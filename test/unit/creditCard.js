@@ -80,6 +80,15 @@ QUnit.test("Hipercard", function(assert) {
     this.strictList(valids, moip.creditCard.isValid);    
 });
 
+QUnit.test("Hiper", function() {
+    var valids = {
+            "valid number": ["6370950000000005", true],
+            "invalid number": ["6370950000000006", false]
+        };
+
+    this.strictList(valids, moip.creditCard.isValid);
+});
+
 QUnit.test("moip.creditCard.isSecurityCodeValid", function(assert) {
     var cscValid = moip.creditCard.isSecurityCodeValid("5105105105105100", "123");
     assert.strictEqual(cscValid, true);
