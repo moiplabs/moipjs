@@ -23,6 +23,7 @@
                     "457393","457631","457632","504175","506699","506770","506771","506772","506773","506774",
                     "506775","506776","506777","506778","509080","509081","509082","509083","627780","636297"],
         _hiperBins : ["637095", "637612", "637599", "637609", "637568"],
+        _hipercardBins: ["606282"],
     
         isValid: function(creditCardNumber) {
             var cardType = CreditCard.prototype.cardType(creditCardNumber);
@@ -59,24 +60,21 @@
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum); } },
                     AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{13}$/.test(cardNum); } },
                     DINERS:     { matches: function(cardNum){ return /^3[0,6,8]\d{12}$/.test(cardNum); } },
-                    HIPERCARD:  { matches: function(cardNum){ return /^(606282\d{10}(\d{3})?)|(3841\d{15})$/.test(cardNum); } },
+                    HIPERCARD:  { matches: function(cardNum){
+                                    return  cardNum !== null &&
+                                            cardNum.length == 16 &&
+                                            that._hipercardBins.indexOf(cardNum.substring(0,6)) > -1;
+                                } },
                     ELO:        { matches: function(cardNum){
-                                    if (cardNum === null || cardNum.length != 16){
-                                        return false;
-                                    }
-                                    return (
-                                             that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                             that._eloBins.indexOf(cardNum.substring(0,5)) > -1
-                                           );
+                                    return  cardNum !== null &&
+                                            cardNum.length == 16 &&
+                                            ( that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                              that._eloBins.indexOf(cardNum.substring(0,5)) > -1 );
                                 } },
                     HIPER:      { matches: function(cardNum){
-                                    if (cardNum === null || cardNum.length != 16){
-                                        return false;
-                                    }
-                                    return (
-                                             that._hiperBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                             that._hiperBins.indexOf(cardNum.substring(0,5)) > -1
-                                           );
+                                    return  cardNum !== null &&
+                                            cardNum.length >= 6 &&
+                                            that._hiperBins.indexOf(cardNum.substring(0,6)) > -1;
                                 } }
                     
                 },
@@ -86,24 +84,21 @@
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{4}\d*$/.test(cardNum); } },
                     AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{2}\d*$/.test(cardNum); } },
                     DINERS:     { matches: function(cardNum){ return /^3(?:0[0-5]|[68][0-9])+\d*$/.test(cardNum); } },
-                    HIPERCARD:  { matches: function(cardNum){ return /^(606282|3841\d{2})\d*$/.test(cardNum); } },
+                    HIPERCARD:  { matches: function(cardNum){
+                                    return  cardNum !== null &&
+                                            cardNum.length >= 6 &&
+                                            that._hipercardBins.indexOf(cardNum.substring(0,6)) > -1;
+                                } },
                     ELO:        { matches: function(cardNum){
-                                    if (cardNum === null || cardNum.length < 6){
-                                        return false;
-                                    }
-                                    return ( 
-                                            that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                            that._eloBins.indexOf(cardNum.substring(0,5)) > -1
-                                           );
+                                    return  cardNum !== null &&
+                                            cardNum.length >= 6 &&
+                                            ( that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
+                                              that._eloBins.indexOf(cardNum.substring(0,5)) > -1 );
                                 } },
                     HIPER:      { matches: function(cardNum){
-                                    if (cardNum === null || cardNum.length < 6){
-                                        return false;
-                                    }
-                                    return (
-                                            that._hiperBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                            that._hiperBins.indexOf(cardNum.substring(0,5)) > -1
-                                           );
+                                    return  cardNum !== null &&
+                                            cardNum.length >= 6 &&
+                                            that._hiperBins.indexOf(cardNum.substring(0,6)) > -1;
                                 } }
 
                 };

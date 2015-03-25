@@ -72,7 +72,7 @@ QUnit.test("Amex", function() {
 
 QUnit.test("Hipercard", function(assert) {
     var valids = {
-            "valid 19 digits": ["3841001111222233334", true],
+            "valid 19 digits": ["3841001111222233334", false],
             "valid": ["6062825607632328", true],
             "valid w/ spaces": ["6062 8256 0763 2328", true]
         };
@@ -109,8 +109,6 @@ QUnit.test("moip.creditCard.cardType", function(assert) {
 
     assert.deepEqual(moip.creditCard.cardType("341111111111111"), {"brand": "AMEX"});
 
-    assert.deepEqual(moip.creditCard.cardType("3841001111222233334"), {"brand": "HIPERCARD"});
-
     assert.deepEqual(moip.creditCard.cardType("6062825607632328"), {"brand": "HIPERCARD"});
     
     assert.deepEqual(moip.creditCard.cardType("4514160123456789"), {"brand" : "ELO"});
@@ -137,9 +135,6 @@ QUnit.test("moip.creditCard.cardType loose check", function(assert) {
 
     assert.deepEqual(moip.creditCard.cardType("381100", loose), {"brand": "DINERS"}, "loosely DINERS => 381100");
     assert.notDeepEqual(moip.creditCard.cardType("381100"), {"brand": "DINERS"});
-
-    assert.deepEqual(moip.creditCard.cardType("384100", loose), {"brand": "HIPERCARD"}, "loosely HIPERCARD => 384100");
-    assert.notDeepEqual(moip.creditCard.cardType("384100"), {"brand": "HIPERCARD"});
 
     assert.deepEqual(moip.creditCard.cardType("606282", loose), {"brand": "HIPERCARD"}, "loosely HIPERCARD => 606282");
     assert.notDeepEqual(moip.creditCard.cardType("606282"), {"brand": "HIPERCARD"});
