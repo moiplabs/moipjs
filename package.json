@@ -1,6 +1,6 @@
 {
   "name": "moip",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "devDependencies": {
     "grunt": "0.4.2",
     "grunt-contrib-concat": "0.3.0",
