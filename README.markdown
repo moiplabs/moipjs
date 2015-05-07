@@ -39,6 +39,7 @@ moip.creditCard.cardType("341111111111111");     //return [Object]AMEX
 moip.creditCard.cardType("30569309025904");      //return [Object]DINERS
 moip.creditCard.cardType("3841001111222233334"); //return [Object]HIPERCARD
 moip.creditCard.cardType("4514160123456789");    //return [Object]ELO
+Moip.Valditor.cardType("6370950000000005");    //return [Object]HIPER
 moip.creditCard.cardType("9191919191919191");    //return [Object]null
 
 card = moip.creditCard.cardType("5105105105105100"); 
