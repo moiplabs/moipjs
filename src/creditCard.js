@@ -45,7 +45,7 @@
             }
         },
 
-        cardType: function(creditCardNumber, loose) {
+        cardType: function(creditCardNumber, bandeiras, loose) {
             var brands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{15}$/.test(cardNum); } },
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum); } },
@@ -100,12 +100,57 @@
             // order is mandatory:
             // a) VISA is identified by the broad prefix '4', shadowing more specific ELO prefixes
             // b) HIPERCARD has precendence over DINERS for prefix 3841 (loose check)
-            if (brands.ELO.matches(creditCardNumber))          { return {brand:'ELO'}; }
-            if (brands.VISA.matches(creditCardNumber))         { return {brand:'VISA'}; }
-            if (brands.MASTERCARD.matches(creditCardNumber))   { return {brand:'MASTERCARD'}; }
-            if (brands.AMEX.matches(creditCardNumber))         { return {brand:'AMEX'}; }
-            if (brands.HIPERCARD.matches(creditCardNumber))    { return {brand:'HIPERCARD'}; }
-            if (brands.DINERS.matches(creditCardNumber))       { return {brand:'DINERS'}; }
+            if( bandeiras ){
+                if (brands.ELO.matches(creditCardNumber)){ 
+                    var index = bandeiras.indexOf("ELO");
+                    if( index != -1 ){
+                        return { brand:'ELO' };
+                    }
+                    return null;
+                }
+                if (brands.VISA.matches(creditCardNumber)){ 
+                    var index = bandeiras.indexOf("VISA");
+                    if( index != -1 ){
+                        return { brand:'VISA' };
+                    }
+                    return null;
+                }
+                if (brands.MASTERCARD.matches(creditCardNumber)){ 
+                    var index = bandeiras.indexOf("MASTERCARD");
+                    if( index != -1 ){
+                        return { brand:'MASTERCARD' };
+                    }
+                    return null;
+                }
+                if (brands.AMEX.matches(creditCardNumber)){ 
+                    var index = bandeiras.indexOf("AMEX");
+                    if( index != -1 ){
+                        return { brand:'AMEX' };
+                    }
+                    return null;
+                }
+                if (brands.HIPERCARD.matches(creditCardNumber)){ 
+                    var index = bandeiras.indexOf("HIPERCARD");
+                    if( index != -1 ){
+                        return { brand:'HIPERCARD' };
+                    }
+                    return null;
+                }
+                if (brands.DINERS.matches(creditCardNumber)){ 
+                    var index = bandeiras.indexOf("DINERS");
+                    if( index != -1 ){
+                        return { brand:'DINERS' };
+                    }
+                    return null;
+                }
+            }else{
+                if (brands.ELO.matches(creditCardNumber))          { return {brand:'ELO'}; }
+                if (brands.VISA.matches(creditCardNumber))         { return {brand:'VISA'}; }
+                if (brands.MASTERCARD.matches(creditCardNumber))   { return {brand:'MASTERCARD'}; }
+                if (brands.AMEX.matches(creditCardNumber))         { return {brand:'AMEX'}; }
+                if (brands.HIPERCARD.matches(creditCardNumber))    { return {brand:'HIPERCARD'}; }
+                if (brands.DINERS.matches(creditCardNumber))       { return {brand:'DINERS'}; }
+            }
             
             return null;
         },

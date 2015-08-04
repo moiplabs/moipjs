@@ -16,6 +16,7 @@ Para todas as validações é retornado um boolean se a condição é valida ou 
 ### Validando apenas o número de cartão
 ``` javascript
 moip.creditCard.isValid("4111111111111111");    //return true
+moip.creditCard.isValid("4111111111111111", ["MASTERCARD", "AMEX"]);    //return false
 moip.creditCard.isValid("4111 1111-1111.1111"); //return true
 moip.creditCard.isValid("1919191919191919");    //return false
 moip.creditCard.isValid("41111");               //return false
@@ -33,16 +34,16 @@ Possíveis retornos:
 
 ### Identificando a bandeira de um cartão
 ``` javascript 
-moip.creditCard.cardType("5105105105105100");    //return [Object]MASTERCARD
+moip.creditCard.cardType("5105105105105100", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]);    //return [Object]MASTERCARD
 moip.creditCard.cardType("4111111111111111");    //return [Object]VISA
-moip.creditCard.cardType("341111111111111");     //return [Object]AMEX
-moip.creditCard.cardType("30569309025904");      //return [Object]DINERS
-moip.creditCard.cardType("3841001111222233334"); //return [Object]HIPERCARD
-moip.creditCard.cardType("4514160123456789");    //return [Object]ELO
-Moip.creditCard.cardType("6370950000000005");    //return [Object]HIPER
-moip.creditCard.cardType("9191919191919191");    //return [Object]null
+moip.creditCard.cardType("341111111111111", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]);     //return [Object]AMEX
+moip.creditCard.cardType("30569309025904", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]);      //return [Object]DINERS
+moip.creditCard.cardType("3841001111222233334", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]); //return [Object]HIPERCARD
+moip.creditCard.cardType("4514160123456789", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]);    //return [Object]ELO
+Moip.creditCard.cardType("6370950000000005", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]);    //return [Object]HIPER
+moip.creditCard.cardType("9191919191919191", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]);    //return [Object]null
 
-card = moip.creditCard.cardType("5105105105105100"); 
+card = moip.creditCard.cardType("5105105105105100", ["ELO", "VISA", "MASTERCARD", "AMEX", "HIPERCARD", "DINERS"]); 
 cardIs = card.brand; // MASTERCARD
 ```
 Possíveis retornos:
