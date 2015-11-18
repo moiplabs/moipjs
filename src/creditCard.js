@@ -38,7 +38,7 @@
                     if (digit < 10) { checksum += digit; } else { checksum += (digit-9); }
                 }
                 if ((checksum % 10) === 0) {
-                    return true; 
+                    return true;
                 } else {
                     return false;
                 }
@@ -65,7 +65,10 @@
                                     return ( eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
                                              eloBins.indexOf(cardNum.substring(0,5)) > -1
                                            );
-                                } }
+                                } },
+                    DISCOVER:   { matches: function(cardNum) { return /^6011\d{12}|622\d{13}|64|65\d{14}$/.test(cardNum); } },
+                    AURA:       { matches: function(cardNum) { return /^50\d{17}$/.test(cardNum); } },
+                    JCB:        { matches: function(cardNum) { return /^35\d{14}$/.test(cardNum); } }
                 },
                 // for non-strict detections
                 looseBrands = {
@@ -106,18 +109,21 @@
             if (brands.AMEX.matches(creditCardNumber))         { return {brand:'AMEX'}; }
             if (brands.HIPERCARD.matches(creditCardNumber))    { return {brand:'HIPERCARD'}; }
             if (brands.DINERS.matches(creditCardNumber))       { return {brand:'DINERS'}; }
-            
+            if (brands.DISCOVER.matches(creditCardNumber))     { return {brand:'DISCOVER'}; }
+            if (brands.AURA.matches(creditCardNumber))         { return {brand:'AURA'}; }
+            if (brands.JCB.matches(creditCardNumber))          { return {brand:'JCB'}; }
+
             return null;
         },
 
         isSecurityCodeValid: function(creditCardNumber, csc) {
             var type = moip.creditCard.cardType(creditCardNumber),
                 digits;
-            
+
             digits = (type.brand === "AMEX") ? 4 : 3;
-            
+
             var regExp = new RegExp('[0-9]{' + digits + '}');
-            
+
             return (csc.length === digits && regExp.test(csc));
         },
 
@@ -164,5 +170,5 @@
     };
 
     moip.creditCard = CreditCard();
-    
+
 })(window);
