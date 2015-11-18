@@ -32,7 +32,7 @@ Possíveis retornos:
 * true ou false
 
 ### Identificando a bandeira de um cartão
-``` javascript 
+``` javascript
 moip.creditCard.cardType("5105105105105100");    //return [Object]MASTERCARD
 moip.creditCard.cardType("4111111111111111");    //return [Object]VISA
 moip.creditCard.cardType("341111111111111");     //return [Object]AMEX
@@ -40,9 +40,12 @@ moip.creditCard.cardType("30569309025904");      //return [Object]DINERS
 moip.creditCard.cardType("3841001111222233334"); //return [Object]HIPERCARD
 moip.creditCard.cardType("4514160123456789");    //return [Object]ELO
 Moip.creditCard.cardType("6370950000000005");    //return [Object]HIPER
+Moip.creditCard.cardType("6011020000245045");    //return [Object]DISCOVER
+Moip.creditCard.cardType("5078601912345600019"); //return [Object]AURA
+Moip.creditCard.cardType("3566007770004971");    //return [Object]JCB
 moip.creditCard.cardType("9191919191919191");    //return [Object]null
 
-card = moip.creditCard.cardType("5105105105105100"); 
+card = moip.creditCard.cardType("5105105105105100");
 cardIs = card.brand; // MASTERCARD
 ```
 Possíveis retornos:
@@ -53,6 +56,9 @@ Object: [brand]
  * DINERS
  * HIPERCARD
  * ELO
+ * DISCOVER
+ * AURA
+ * JCB
 
 ### Verificado se a data de expiração do cartão
 ``` javascript
