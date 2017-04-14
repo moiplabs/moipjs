@@ -54,7 +54,7 @@ Object: [brand]
  * HIPERCARD
  * ELO
 
-### Verificado se a data de expiração do cartão
+### Verificando a data de expiração do cartão
 ``` javascript
 moip.creditCard.isExpiryDateValid("10", "2020");    //return true
 moip.creditCard.isExpiryDateValid("10", "2000");    //return false
